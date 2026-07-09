@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>سلاطین گیم | بنر سرور</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  :root{
+    --midnight:#170c28;
+    --aubergine:#2c1a4a;
+    --gold:#cfa53a;
+    --gold-bright:#f0d787;
+    --copper:#b5651d;
+    --ivory:#f3e9d2;
+    --wine:#7a1f3d;
+    --wine-bright:#a5294f;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    background:transparent;
+    font-family:'Vazirmatn', sans-serif;
+  }
+
+  .stage{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 10px;
+  }
+
+  .banner{
+    position:relative;
+    width:980px;
+    max-width:100%;
+    border-radius:14px;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(207,165,58,0.16), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(122,31,61,0.35), transparent 50%),
+      linear-gradient(135deg, var(--midnight) 0%, var(--aubergine) 55%, var(--midnight) 100%);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(207,165,58,0.25) inset;
+    color:var(--ivory);
+  }
+
+  /* arabesque lattice pattern */
+  .lattice{
+    position:absolute;
+    inset:0;
+    opacity:0.10;
+    background-image:
+      repeating-linear-gradient(45deg, var(--gold) 0 1.5px, transparent 1.5px 34px),
+      repeating-linear-gradient(-45deg, var(--gold) 0 1.5px, transparent 1.5px 34px);
+    pointer-events:none;
+  }
+
+  .frame{
+    position:absolute;
+    inset:8px;
+    border:1.5px solid rgba(207,165,58,0.55);
+    border-radius:8px;
+    pointer-events:none;
+  }
+
+  .corner{
+    position:absolute;
+    width:46px;
+    height:46px;
+    pointer-events:none;
+  }
+  .corner svg{ width:100%; height:100%; display:block; }
+  .corner.tl{ top:6px; left:6px; }
+  .corner.tr{ top:6px; right:6px; transform:scaleX(-1); }
+  .corner.bl{ bottom:6px; left:6px; transform:scaleY(-1); }
+  .corner.br{ bottom:6px; right:6px; transform:scale(-1,-1); }
+
+  .content{
+    position:relative;
+    z-index:2;
+    padding:22px 40px 26px;
+  }
+
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    font-size:13px;
+    letter-spacing:1px;
+    color:var(--gold-bright);
+    font-weight:600;
+  }
+  .eyebrow .rule{
+    flex:0 0 120px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+    position:relative;
+  }
+  .eyebrow .rule::after{
+    content:"";
+    position:absolute;
+    top:-4px; left:50%;
+    transform:translateX(-50%) rotate(45deg);
+    width:8px; height:8px;
+    background:var(--gold);
+  }
+
+  .main-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    margin-top:14px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+
+  .crest{
+    width:78px;
+    height:78px;
+    flex:0 0 auto;
+  }
+
+  .brand-text h1{
+    margin:0;
+    font-size:44px;
+    font-weight:900;
+    letter-spacing:0;
+    background:linear-gradient(180deg, var(--gold-bright) 10%, var(--gold) 55%, var(--copper) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 2px 12px rgba(0,0,0,0.35);
+    line-height:1.15;
+  }
+
+  .brand-text .sub{
+    margin-top:4px;
+    font-size:14px;
+    color:rgba(243,233,210,0.75);
+    letter-spacing:2px;
+    font-family:'JetBrains Mono', monospace;
+    direction:ltr;
+    text-align:right;
+  }
+
+  .brand-text .sub-fa{
+    font-family:'Vazirmatn', sans-serif;
+    direction:rtl;
+    text-align:right;
+    letter-spacing:0;
+    font-size:15px;
+    font-weight:600;
+    color:rgba(243,233,210,0.85);
+  }
+
+  .brand-text h1[dir="ltr"]{
+    text-align:right;
+  }
+
+  /* seal */
+  .seal-wrap{
+    flex:0 0 auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+  }
+
+  .seal{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    position:relative;
+    background:
+      radial-gradient(circle at 35% 30%, rgba(255,255,255,0.06), transparent 55%),
+      radial-gradient(circle, var(--wine-bright) 0%, var(--wine) 65%, #4a1128 100%);
+    box-shadow:
+      0 0 0 3px var(--gold),
+      0 0 0 6px rgba(207,165,58,0.35),
+      0 10px 24px rgba(0,0,0,0.5) inset,
+      0 8px 20px rgba(0,0,0,0.45);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:var(--ivory);
+  }
+
+  .seal .ring-text{
+    position:absolute;
+    inset:6px;
+    border-radius:50%;
+    border:1px dashed rgba(240,215,135,0.45);
+  }
+
+  .seal .date{
+    font-family:'JetBrains Mono', monospace;
+    font-size:19px;
+    font-weight:700;
+    letter-spacing:1px;
+    color:var(--gold-bright);
+    direction:ltr;
+  }
+
+  .seal .time{
+    font-family:'JetBrains Mono', monospace;
+    font-size:26px;
+    font-weight:700;
+    margin-top:2px;
+    direction:ltr;
+    text-shadow:0 0 10px rgba(240,215,135,0.5);
+  }
+
+  .seal .weekday{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px;
+    margin-top:4px;
+    color:rgba(243,233,210,0.7);
+    letter-spacing:1px;
+  }
+
+  .seal-caption{
+    font-size:11px;
+    color:rgba(207,165,58,0.85);
+    letter-spacing:3px;
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  .divider-row{
+    margin-top:20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .divider-row .line{
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(207,165,58,0.55), transparent);
+  }
+  .divider-row .diamond{
+    width:7px; height:7px;
+    background:var(--gold);
+    transform:rotate(45deg);
+  }
+
+  .footer-row{
+    margin-top:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:26px;
+    font-size:13px;
+    color:rgba(243,233,210,0.8);
+  }
+
+  .footer-row .item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+
+  .footer-row .dot{
+    width:5px;height:5px;border-radius:50%;
+    background:var(--gold);
+  }
+
+  .footer-row b{
+    color:var(--gold-bright);
+    font-family:'JetBrains Mono', monospace;
+    direction:ltr;
+    letter-spacing:0.5px;
+  }
+
+  @media (max-width:720px){
+    .content{ padding:18px 16px 20px; }
+    .main-row{ flex-direction:column; text-align:center; }
+    .brand{ flex-direction:column; }
+    .brand-text h1{ font-size:32px; }
+    .footer-row{ flex-wrap:wrap; row-gap:8px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="banner" id="banner">
+    <div class="lattice"></div>
+    <div class="frame"></div>
+
+    <div class="corner tl"><svg viewBox="0 0 46 46"><path d="M2 2 L2 30 Q2 2 30 2 Z" fill="none" stroke="#cfa53a" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#cfa53a"/></svg></div>
+    <div class="corner tr"><svg viewBox="0 0 46 46"><path d="M2 2 L2 30 Q2 2 30 2 Z" fill="none" stroke="#cfa53a" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#cfa53a"/></svg></div>
+    <div class="corner bl"><svg viewBox="0 0 46 46"><path d="M2 2 L2 30 Q2 2 30 2 Z" fill="none" stroke="#cfa53a" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#cfa53a"/></svg></div>
+    <div class="corner br"><svg viewBox="0 0 46 46"><path d="M2 2 L2 30 Q2 2 30 2 Z" fill="none" stroke="#cfa53a" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#cfa53a"/></svg></div>
+
+    <div class="content">
+      <div class="eyebrow">
+        <span class="rule"></span>
+        به نام خدا
+        <span class="rule" style="transform:scaleX(-1)"></span>
+      </div>
+
+      <div class="main-row">
+        <div class="brand">
+          <svg class="crest" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f0d787"/>
+                <stop offset="60%" stop-color="#cfa53a"/>
+                <stop offset="100%" stop-color="#8a5a12"/>
+              </linearGradient>
+            </defs>
+            <!-- crown -->
+            <path d="M14 46 L26 20 L38 40 L50 14 L62 40 L74 20 L86 46 L82 62 L18 62 Z"
+                  fill="url(#goldGrad)" stroke="#3a260a" stroke-width="1.2"/>
+            <circle cx="26" cy="18" r="4.5" fill="#a5294f" stroke="#7a1f3d" stroke-width="1"/>
+            <circle cx="50" cy="12" r="5.5" fill="#a5294f" stroke="#7a1f3d" stroke-width="1"/>
+            <circle cx="74" cy="18" r="4.5" fill="#a5294f" stroke="#7a1f3d" stroke-width="1"/>
+            <rect x="16" y="62" width="68" height="10" rx="2" fill="url(#goldGrad)" stroke="#3a260a" stroke-width="1.2"/>
+            <!-- gamepad below -->
+            <rect x="28" y="78" width="44" height="16" rx="8" fill="#2c1a4a" stroke="#cfa53a" stroke-width="1.5"/>
+            <circle cx="38" cy="86" r="2.6" fill="#cfa53a"/>
+            <circle cx="62" cy="83" r="2" fill="#a5294f"/>
+            <circle cx="67" cy="88" r="2" fill="#a5294f"/>
+          </svg>
+          <div class="brand-text">
+            <h1 dir="ltr">MSWM</h1>
+            <div class="sub sub-fa">به سرور تیم‌اسپیک MSWM خوش آمدید</div>
+          </div>
+        </div>
+
+        <div class="seal-wrap">
+          <div class="seal">
+            <div class="ring-text"></div>
+            <div class="date" id="jalaliDate">----/--/--</div>
+            <div class="time" id="clockTime">--:--:--</div>
+            <div class="weekday" id="weekdayName">—</div>
+          </div>
+          <div class="seal-caption">زمان سرور</div>
+        </div>
+      </div>
+
+      <div class="divider-row">
+        <span class="line"></span>
+        <span class="diamond"></span>
+        <span class="line"></span>
+      </div>
+
+      <div class="footer-row">
+        <span class="item"><span class="dot"></span> آدرس سرور: <b>MSWM.ir</b></span>
+        <span class="item"><span class="dot"></span> TeamSpeak Linux</span>
+        <span class="item"><span class="dot"></span> Management · VIP · Friend</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---- Gregorian -> Jalali (Persian) calendar conversion ---- */
+function gregorianToJalali(gy, gm, gd) {
+  var g_d_m = [0,31,59,90,120,151,181,212,243,273,304,334];
+  var jy = (gy <= 1600) ? 0 : 979;
+  gy -= (gy <= 1600) ? 621 : 1600;
+  var gy2 = (gm > 2) ? (gy + 1) : gy;
+  var days = (365 * gy) + parseInt((gy2 + 3) / 4) - parseInt((gy2 + 99) / 100) +
+             parseInt((gy2 + 399) / 400) - 80 + gd + g_d_m[gm - 1];
+  jy += 33 * parseInt(days / 12053);
+  days %= 12053;
+  jy += 4 * parseInt(days / 1461);
+  days %= 1461;
+  if (days > 365) {
+    jy += parseInt((days - 1) / 365);
+    days = (days - 1) % 365;
+  }
+  var jm, jd;
+  if (days < 186) {
+    jm = 1 + parseInt(days / 31);
+    jd = 1 + (days % 31);
+  } else {
+    jm = 7 + parseInt((days - 186) / 30);
+    jd = 1 + ((days - 186) % 30);
+  }
+  return [jy, jm, jd];
+}
+
+var weekdays = ["یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"];
+
+function pad(n){ return n.toString().padStart(2,'0'); }
+
+function tick(){
+  var now = new Date();
+  var j = gregorianToJalali(now.getFullYear(), now.getMonth()+1, now.getDate());
+  document.getElementById('jalaliDate').textContent = j[0] + '/' + pad(j[1]) + '/' + pad(j[2]);
+  document.getElementById('clockTime').textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+  document.getElementById('weekdayName').textContent = weekdays[now.getDay()];
+}
+tick();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
